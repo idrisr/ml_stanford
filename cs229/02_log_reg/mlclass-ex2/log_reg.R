@@ -25,7 +25,13 @@ cost_function <- function(X, Y,theta){
                  solve(1-Y) * log(1-sigmoid(X%*%theta)))
 }
 
-gradient <- function(){
+gradient <- function(X, Y, initial_theta, alpha, iterations){
+    J = list()
+    for(i in 1:iterations){
+        grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - y))
+        theta <- theta - (alpha/m * grad)
+        J[i] = cost_function(X, Y, theta)
+    }
 }
 
 data <- read.csv('ex2data1.txt', header=FALSE)
@@ -35,3 +41,5 @@ names(data) <- c('Exam1', 'Exam2', 'Admitted')
 data <- transform(data, Admitted = factor(Admitted))
 g <- plot_data(data)
 #ggsave(filename='initial_plot.jpeg', plot=g)
+
+
