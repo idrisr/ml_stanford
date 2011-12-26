@@ -17,15 +17,16 @@ add_ones <- function(X){
 }
 gradient_descent <- function(X, Y, theta, alpha, iterations){
     m = dim(Y)[1]
+    J = list()
     for(i in 1:iterations){
         h_theta_y <- (X %*% theta) - Y
         dJ_dTheta <- t(X) %*% h_theta_y
         theta <- theta - (alpha/m * dJ_dTheta)
         #[[TODO: add graph of iterations vs. J]]
-        #J <- compute_cost(X, Y, theta)
-        #print(J)
+        J[i] <- compute_cost(X, Y, theta)
     }
-    return(theta)
+    r = list(theta=theta, J=J)
+    return(r)
 }
 
 unscale <- function(X, mu, sig){
@@ -35,15 +36,25 @@ unscale <- function(X, mu, sig){
     return(X)
 }
 
+plot_cost <- function(Js){
+    Js$iter <- 1:dim(Js)[1]
+    g <- ggplot(Js, aes(iter, Cost)) + geom_line()
+    g <- g + opts(title = 'Cost vs Iteration')
+    return(g)
+}
+
 
 data_file = '../ex1data2.txt'
 data <- read_data(data_file)
 X <- data[,-length(data)]
+
+#Save data to unscale features
 mu <- mean(X)
 sig <- sd(X)
 X <- scale(X)
+
+# convert dataframes into matrices
 X <- as.matrix(add_ones(X))
-#colnames(X) <- c('X0', 'X1', 'X2')
 colnames(X) <- NULL
 Y <- matrix(data[,dim(data)[2]])
 theta = matrix(rep(0, dim(X)[2]), nrow=dim(X)[2], ncol=1)
@@ -53,6 +64,12 @@ alpha = 0.01
 # compute and display initial cost
 J = compute_cost(X, Y, theta)
 print(J)
-theta <- gradient_descent(X, Y, theta, alpha, iterations)
-print(theta)
-X <- unscale(X, mu, sig)
+
+#contains theta and costs
+r <- gradient_descent(X, Y, theta, alpha, iterations)
+theta <- r["theta"]
+Js <- as.data.frame(unlist(r["J"]))
+rownames(Js) <- NULL
+names(Js) <- 'Cost'
+g <- plot_cost(Js)
+ggsave(filename = 'Cost_v_iteration.jpeg', plot=g)
