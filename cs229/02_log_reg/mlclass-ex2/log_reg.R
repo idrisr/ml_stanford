@@ -62,8 +62,8 @@ g <- plot_data(data)
 theta_init <- matrix(0, dim(X)[2])
 J_init <- cost_function(X, Y, theta_init)
 print(J_init)
-iterations = 50000
-alpha = .01
+iterations = 150000
+alpha = .1
 r <- gradient(X, Y, theta_init, alpha, iterations)
 theta <- r["theta"]
 Js <- as.data.frame(r["J"])
