@@ -21,27 +21,36 @@ add_ones <- function(X){
 
 cost_function <- function(X, Y,theta){
     m = dim(X)[1]
-    J = 1/m * sum(-solve(Y) * log(sigmoid(X%*%theta)) - 
-                 solve(1-Y) * log(1-sigmoid(X%*%theta)))
+    J = 1/m * sum(-t(Y) %*% log(sigmoid(X%*%theta)) - 
+                 t(1-Y) %*% log((1-sigmoid(X%*%theta))))
+    return(J)
 }
 
-gradient <- function(X, Y, initial_theta, alpha, iterations){
+gradient <- function(X, Y, theta_init, alpha, iterations){
     J = list()
     for(i in 1:iterations){
         # Wait - this isn't the right cost function
         # Let's graph it before and after and see what happens
-        grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - y))
+        grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - Y))
         theta <- theta - (alpha/m * grad)
         J[i] = cost_function(X, Y, theta)
+        print(J[[i]])
     }
+    return(theta)
 }
 
 data <- read.csv('ex2data1.txt', header=FALSE)
-X <- data[, -length(data)]
-Y <- data[, length(data)]
+X <- as.matrix(data[, -length(data)])
+Y <- as.matrix(data[, length(data)])
+X <- add_ones(X)
 names(data) <- c('Exam1', 'Exam2', 'Admitted')
 data <- transform(data, Admitted = factor(Admitted))
 g <- plot_data(data)
 #ggsave(filename='initial_plot.jpeg', plot=g)
-
-
+theta_init <- matrix(0, dim(X)[2])
+J_init <- cost_function(X, Y, theta_init)
+print(J_init)
+iterations = 50000
+alpha = .01
+theta <- gradient(X, Y, theta_init, alpha, iterations)
+print(theta)
