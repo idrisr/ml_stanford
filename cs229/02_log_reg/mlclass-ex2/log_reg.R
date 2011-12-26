@@ -11,6 +11,23 @@ sigmoid <- function(X){
     return(X)
 }
 
+add_ones <- function(X){
+    # grabbed from lin_reg1.R. 
+    # Obviously this is bad style. Need to figure out how to properly call 
+    # functions from other files in R
+    X <- as.matrix(X)
+    X <- cbind(rep(1, dim(X)[1]), X)
+}
+
+cost_function <- function(X, Y,theta){
+    m = dim(X)[1]
+    J = 1/m * sum(-solve(Y) * log(sigmoid(X%*%theta)) - 
+                 solve(1-Y) * log(1-sigmoid(X%*%theta)))
+}
+
+gradient <- function(){
+}
+
 data <- read.csv('ex2data1.txt', header=FALSE)
 X <- data[, -length(data)]
 Y <- data[, length(data)]
