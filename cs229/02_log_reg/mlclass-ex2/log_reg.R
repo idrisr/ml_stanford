@@ -26,7 +26,7 @@ cost_function <- function(X, Y,theta){
     return(J)
 }
 
-gradient <- function(X, Y, theta_init, alpha, iterations){
+gradient <- function(X, Y, theta, alpha, iterations){
     m <- dim(X)[1]
     # Maybe faster to create a pre-allocated matrix
     J = list()
@@ -48,7 +48,7 @@ plot_cost <- function(Js, alpha){
     title = paste('Alpha = ', alpha, "\n", 'Iterations = ', iter, sep='')
     Js$iter <- 1:dim(Js)[1]
     g <- ggplot(Js, aes(iter, Cost)) + geom_line()
-    g <- g + opts(title = 'Cost vs Iteration')
+    g <- g + opts(title = title)
     return(g)
 }
 
@@ -63,11 +63,13 @@ g <- plot_data(data)
 theta_init <- matrix(0, dim(X)[2])
 J_init <- cost_function(X, Y, theta_init)
 print(J_init)
-iterations = 50000
+iterations = 500
 alpha = .01
 r <- gradient(X, Y, theta_init, alpha, iterations)
 theta <- r["theta"]
 Js <- as.data.frame(unlist(r["J"]))
 rownames(Js) <- NULL
 names(Js) <- 'Cost'
-print(theta)
+g <- plot_cost(Js, alpha)
+filename = paste('Alpha_', alpha, "_", 'Iterations_', iter, '.jpeg', sep='')
+ggsave(filename = filename, plot = g)
