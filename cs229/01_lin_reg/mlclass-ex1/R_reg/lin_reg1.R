@@ -15,7 +15,8 @@ plot_data <- function(X, Y, theta){
     # Add chart labels
     df <- data.frame(X, Y)
     df <- cbind(df, pred=(X %*% theta))
-    p <- ggplot(df, aes(X2, pred)) + geom_line() + geom_point(aes(X2, Y))
+    p <- ggplot(df, aes(X2, pred)) + geom_line(colour='blue') + 
+        geom_point(aes(X2, Y))
     return(p)
 }
 
@@ -72,13 +73,17 @@ data <- read_data(data_file)
 X <- data[,-length(data)]
 mu <- mean(X)
 sig <- sd(X)
-X <- scale(X)
+print(mu)
+print(sig)
+
+# why does this problem work without scaling? And why did I have such a hard
+# time making this work with normalization?
+#X <- scale(X)
 X <- as.matrix(add_ones(X))
-#colnames(X) <- c('X0', 'X1', 'X2')
 colnames(X) <- NULL
 Y <- matrix(data[,dim(data)[2]])
 theta = matrix(rep(0, dim(X)[2]), nrow=dim(X)[2], ncol=1)
-iterations = 50000
+iterations = 1500 
 alpha = 0.01
 
 # compute and display initial cost
@@ -86,6 +91,13 @@ J = compute_cost(X, Y, theta)
 #print(J)
 theta <- gradient_descent(X, Y, theta, alpha, iterations)
 print(theta)
-X <- unscale(X, mu, sig)
+
+#unscale theta values
+#Actually, no need to do this. Why is that exactly? hmm
+#theta[2] <- (theta[2] * sig) + mu
+print(theta)
+#X <- unscale(X, mu, sig)
 g <- plot_contour(X, Y) + opts(title = "Gradient Descent Contour")
 ggsave(filename = 'grad_contour_plot.jpeg', plot = g)
+p <- plot_data(X, Y, theta)
+ggsave(filename = 'prediction.jpeg', plot = p)
