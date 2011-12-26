@@ -28,6 +28,8 @@ cost_function <- function(X, Y,theta){
 gradient <- function(X, Y, initial_theta, alpha, iterations){
     J = list()
     for(i in 1:iterations){
+        # Wait - this isn't the right cost function
+        # Let's graph it before and after and see what happens
         grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - y))
         theta <- theta - (alpha/m * grad)
         J[i] = cost_function(X, Y, theta)
