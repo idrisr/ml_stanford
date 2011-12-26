@@ -27,6 +27,8 @@ cost_function <- function(X, Y,theta){
 }
 
 gradient <- function(X, Y, theta_init, alpha, iterations){
+    m <- dim(X)[1]
+    # Maybe faster to create a pre-allocated matrix
     J = list()
     for(i in 1:iterations){
         # Wait - this isn't the right cost function
@@ -34,9 +36,20 @@ gradient <- function(X, Y, theta_init, alpha, iterations){
         grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - Y))
         theta <- theta - (alpha/m * grad)
         J[i] = cost_function(X, Y, theta)
-        print(J[[i]])
     }
-    return(theta)
+    r = list(theta=theta, J=J)
+    return(r)
+}
+
+plot_cost <- function(Js, alpha){
+    # Another function copied from lin_reg_mult.R
+    # Find a better way!
+    iter = dim(Js)[1]
+    title = paste('Alpha = ', alpha, "\n", 'Iterations = ', iter, sep='')
+    Js$iter <- 1:dim(Js)[1]
+    g <- ggplot(Js, aes(iter, Cost)) + geom_line()
+    g <- g + opts(title = 'Cost vs Iteration')
+    return(g)
 }
 
 data <- read.csv('ex2data1.txt', header=FALSE)
@@ -52,5 +65,9 @@ J_init <- cost_function(X, Y, theta_init)
 print(J_init)
 iterations = 50000
 alpha = .01
-theta <- gradient(X, Y, theta_init, alpha, iterations)
+r <- gradient(X, Y, theta_init, alpha, iterations)
+theta <- r["theta"]
+Js <- as.data.frame(unlist(r["J"]))
+rownames(Js) <- NULL
+names(Js) <- 'Cost'
 print(theta)
