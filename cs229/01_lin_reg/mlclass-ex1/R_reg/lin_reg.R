@@ -67,7 +67,7 @@ unscale <- function(X, mu, sig){
 }
 
 
-data_file = '../ex1data2.txt'
+data_file = '../ex1data1.txt'
 data <- read_data(data_file)
 X <- data[,-length(data)]
 mu <- mean(X)
@@ -87,3 +87,4 @@ J = compute_cost(X, Y, theta)
 theta <- gradient_descent(X, Y, theta, alpha, iterations)
 print(theta)
 X <- unscale(X, mu, sig)
+g <- plot_contour(X, Y)
