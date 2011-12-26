@@ -43,6 +43,14 @@ plot_cost <- function(Js){
     return(g)
 }
 
+normal_sol <- function(X, Y){
+    # solve linear regression through normal equation
+    # Taking the inverse is very expensive, which is why we don't always
+    # use this approach. And for degenerate matrices which have no inverse
+    theta = solve(t(X) %*% X) %*% t(X) %*% Y
+    return(theta)
+}
+
 
 data_file = '../ex1data2.txt'
 data <- read_data(data_file)
@@ -73,3 +81,5 @@ rownames(Js) <- NULL
 names(Js) <- 'Cost'
 g <- plot_cost(Js)
 ggsave(filename = 'Cost_v_iteration.jpeg', plot=g)
+theta_norm <- normal_sol(X, Y)
+print(theta_norm)
