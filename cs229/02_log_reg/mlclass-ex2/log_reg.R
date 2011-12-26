@@ -28,8 +28,7 @@ cost_function <- function(X, Y,theta){
 
 gradient <- function(X, Y, theta, alpha, iterations){
     m <- dim(X)[1]
-    # Maybe faster to create a pre-allocated matrix
-    J = list()
+    J = matrix(0, iterations)
     for(i in 1:iterations){
         # Wait - this isn't the right cost function
         # Let's graph it before and after and see what happens
@@ -63,13 +62,13 @@ g <- plot_data(data)
 theta_init <- matrix(0, dim(X)[2])
 J_init <- cost_function(X, Y, theta_init)
 print(J_init)
-iterations = 500
+iterations = 50000
 alpha = .01
 r <- gradient(X, Y, theta_init, alpha, iterations)
 theta <- r["theta"]
-Js <- as.data.frame(unlist(r["J"]))
+Js <- as.data.frame(r["J"])
 rownames(Js) <- NULL
 names(Js) <- 'Cost'
 g <- plot_cost(Js, alpha)
-filename = paste('Alpha_', alpha, "_", 'Iterations_', iter, '.jpeg', sep='')
+filename = paste('Alpha_', alpha, "_", 'Iterations_', iterations, '.jpeg', sep='')
 ggsave(filename = filename, plot = g)
