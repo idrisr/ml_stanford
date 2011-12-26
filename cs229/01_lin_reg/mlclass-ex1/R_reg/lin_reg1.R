@@ -51,7 +51,7 @@ plot_contour <- function(X, Y){
     Js <- rep(0, dim(xy)[1])
     for(i in 1:dim(xy)[1]){
         theta = as.vector(xy[i,])
-        Js[i] = compute_cost(X[,-1], Y, theta)
+        Js[i] = compute_cost(X, Y, theta)
     }
     df <- data.frame(xy, Js)
     g <- ggplot(df, aes(xs, ys, z=log(Js))) + 

@@ -67,7 +67,7 @@ unscale <- function(X, mu, sig){
 }
 
 
-data_file = '/home/id/code/ml/assn/mlclass-ex1/ex1data2.txt'
+data_file = '../ex1data2.txt'
 data <- read_data(data_file)
 X <- data[,-length(data)]
 mu <- mean(X)
