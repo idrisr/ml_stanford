@@ -60,10 +60,13 @@ data <- transform(data, Admitted = factor(Admitted))
 g <- plot_data(data)
 #ggsave(filename='initial_plot.jpeg', plot=g)
 theta_init <- matrix(0, dim(X)[2])
+
+# use the last known best theta_init    
+theta_init <- matrix(c(-8.4, .072, .066))
 J_init <- cost_function(X, Y, theta_init)
 print(J_init)
-iterations = 150000
-alpha = .1
+iterations <- 150000
+alpha <- .15
 r <- gradient(X, Y, theta_init, alpha, iterations)
 theta <- r["theta"]
 Js <- as.data.frame(r["J"])
