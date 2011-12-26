@@ -37,28 +37,6 @@ gradient_descent <- function(X, Y, theta, alpha, iterations){
     return(theta)
 }
 
-plot_contour <- function(X, Y){
-    #% Grid over which we will calculate J
-    x <- seq(-10, 10, length.out=100);
-    y <- seq(-1, 4, length.out=100);
-    #x <- 1:4
-    #y <- 4:7
-    xs <- sapply(x, function (x) rep(x, length(y)))
-    xs <- as.vector(xs)
-    ys <- rep(y, length(x))
-    xy <- cbind(xs, ys)
-
-    Js <- rep(0, dim(xy)[1])
-    for(i in 1:dim(xy)[1]){
-        theta = as.vector(xy[i,])
-        Js[i] = compute_cost(X[,-1], Y, theta)
-    }
-    df <- data.frame(xy, Js)
-    g <- ggplot(df, aes(xs, ys, z=log(Js))) + 
-        geom_contour(aes(colour=..level..), bins = 15)
-    return(g)
-}
-
 unscale <- function(X, mu, sig){
     sig <- sapply(sig, function(x) rep(x, dim(X)[1]))
     mu  <- sapply(mu, function(x) rep(x, dim(X)[1]))
@@ -78,12 +56,12 @@ X <- as.matrix(add_ones(X))
 colnames(X) <- NULL
 Y <- matrix(data[,dim(data)[2]])
 theta = matrix(rep(0, dim(X)[2]), nrow=dim(X)[2], ncol=1)
-iterations = 50000
+iterations = 1000
 alpha = 0.01
 
 # compute and display initial cost
 J = compute_cost(X, Y, theta)
-#print(J)
+print(J)
 theta <- gradient_descent(X, Y, theta, alpha, iterations)
 print(theta)
 X <- unscale(X, mu, sig)
