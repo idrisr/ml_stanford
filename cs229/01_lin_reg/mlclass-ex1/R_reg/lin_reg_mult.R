@@ -11,19 +11,10 @@ read_data <-function(file){
     return(df)
 }
 
-plot_data <- function(X, Y, theta){
-    # Add chart labels
-    df <- data.frame(X, Y)
-    df <- cbind(df, pred=(X %*% theta))
-    p <- ggplot(df, aes(X2, pred)) + geom_line() + geom_point(aes(X2, Y))
-    return(p)
-}
-
 add_ones <- function(X){
     X <- as.matrix(X)
     X <- cbind(rep(1, dim(X)[1]), X)
 }
-
 gradient_descent <- function(X, Y, theta, alpha, iterations){
     m = dim(Y)[1]
     for(i in 1:iterations){
