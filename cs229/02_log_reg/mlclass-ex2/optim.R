@@ -6,6 +6,7 @@ fr <- function(x){
     x2 <- x[2]
     100 * (x2 - x1 * x1)^2 + (1 - x1)^2
 }
+
 grr <- function(x){ 
     ## Gradient of 'fr'
     x1 <- x[1]
@@ -13,9 +14,33 @@ grr <- function(x){
     c(-400 * x1 * (x2 - x1 * x1) - 2 * (1 - x1),
           200 * (x2 - x1 * x1))
 }
-optim(c(-1.2,1), fr)
-optim(c(-1.2,1), fr, grr, method = "BFGS")
-optim(c(-1.2,1), fr, NULL, method = "BFGS", hessian = TRUE)
+
+plot_contour <- function(){
+    #% Grid over which we will calculate J
+    x <- seq(-20, 20, length.out=100);
+    y <- seq(-20, 20, length.out=100);
+    #x <- 1:4
+    #y <- 4:7
+    xs <- sapply(x, function (x) rep(x, length(y)))
+    xs <- as.vector(xs)
+    ys <- rep(y, length(x))
+    xy <- cbind(xs, ys)
+
+    Js <- rep(0, dim(xy)[1])
+    for(i in 1:dim(xy)[1]){
+        #theta = as.vector(xy[i,])
+        Js[i] = fr(xy[i,])
+    }
+    df <- data.frame(xy, Js)
+    g <- ggplot(df, aes(xs, ys, z=log(Js))) + 
+        geom_contour(aes(colour=..level..), bins = 15)
+    return(g)
+}
+
+x <- c(-1.2, 1) 
+f1 <- optim(x, fr)
+f2 <- optim(x, fr, grr, method = "BFGS")
+f3 <- optim(x, fr, NULL, method = "BFGS", hessian = TRUE)
 
 ## These do not converge in the default number of steps
 optim(c(-1.2,1), fr, grr, method = "CG")
