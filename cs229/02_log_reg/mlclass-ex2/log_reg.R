@@ -19,7 +19,7 @@ add_ones <- function(X){
     X <- cbind(rep(1, dim(X)[1]), X)
 }
 
-cost_function <- function(X, Y,theta){
+cost_function <- function(theta, X, Y){
     m = dim(X)[1]
     J = 1/m * sum(-t(Y) %*% log(sigmoid(X%*%theta)) - 
                  t(1-Y) %*% log((1-sigmoid(X%*%theta))))
@@ -34,7 +34,7 @@ gradient <- function(X, Y, theta, alpha, iterations){
         # Let's graph it before and after and see what happens
         grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - Y))
         theta <- theta - (alpha/m * grad)
-        J[i] = cost_function(X, Y, theta)
+        J[i] = cost_function(theta, X, Y)
     }
     r = list(theta=theta, J=J)
     return(r)
@@ -61,17 +61,18 @@ g <- plot_data(data)
 #ggsave(filename='initial_plot.jpeg', plot=g)
 theta_init <- matrix(0, dim(X)[2])
 
-# use the last known best theta_init    
-theta_init <- matrix(c(-8.4, .072, .066))
-J_init <- cost_function(X, Y, theta_init)
-print(J_init)
-iterations <- 150000
-alpha <- .15
-r <- gradient(X, Y, theta_init, alpha, iterations)
-theta <- r["theta"]
-Js <- as.data.frame(r["J"])
-rownames(Js) <- NULL
-names(Js) <- 'Cost'
-g <- plot_cost(Js, alpha)
-filename = paste('Alpha_', alpha, "_", 'Iterations_', iterations, '.jpeg', sep='')
-ggsave(filename = filename, plot = g)
+# alpha =. 15, after 14M iterations
+#theta_init <- matrix(c(-21.7108, .1786, .1735))
+
+J_init <- cost_function(theta_init, X, Y)
+#print(J_init)
+#iterations <- 10000000
+#alpha <- .15
+#r <- gradient(X, Y, theta_init, alpha, iterations)
+#theta <- r["theta"]
+#Js <- as.data.frame(r["J"])
+#rownames(Js) <- NULL
+#names(Js) <- 'Cost'
+#g <- plot_cost(Js, alpha)
+#filename = paste('Alpha_', alpha, "_", 'Iterations_', iterations, '.jpeg', sep='')
+#ggsave(filename = filename, plot = g)
