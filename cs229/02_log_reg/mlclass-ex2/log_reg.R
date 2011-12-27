@@ -60,6 +60,13 @@ gradient <- function(theta){
     return(grad)
 }
 
+calc_accuracy <- function(theta){
+    predict <- sigmoid(X %*% theta) > 0.5
+    return(predict)
+}
+
+plot_diff_method <- function(theta1, theta2){}
+
 data <- read.csv('ex2data1.txt', header=FALSE)
 X <- as.matrix(data[, -length(data)])
 Y <- as.matrix(data[, length(data)])
@@ -77,10 +84,15 @@ theta.opt <- optim(theta_init, cost_function, gradient)$par
 iterations <- 1000
 alpha <- .1
 r <- gradient_descent(theta_init, alpha, iterations)
-theta.gd <- r["theta"]
+theta.gd <- as.matrix(r[["theta"]])
+rownames(theta.gd) <- NULL
 Js <- as.data.frame(r["J"])
 rownames(Js) <- NULL
 names(Js) <- 'Cost'
 g <- plot_cost(Js, alpha)
 #filename = paste('Alpha_', alpha, "_", 'Iterations_', iterations, '.jpeg', sep='')
 #ggsave(filename = filename, plot = g)
+
+
+
+
