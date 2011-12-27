@@ -26,7 +26,7 @@ cost_function <- function(theta, X, Y){
     return(J)
 }
 
-gradient <- function(X, Y, theta, alpha, iterations){
+gradient_descent <- function(X, Y, theta, alpha, iterations){
     m <- dim(X)[1]
     J = matrix(0, iterations)
     for(i in 1:iterations){
@@ -68,7 +68,7 @@ J_init <- cost_function(theta_init, X, Y)
 #print(J_init)
 #iterations <- 10000000
 #alpha <- .15
-#r <- gradient(X, Y, theta_init, alpha, iterations)
+#r <- gradient_descent(X, Y, theta_init, alpha, iterations)
 #theta <- r["theta"]
 #Js <- as.data.frame(r["J"])
 #rownames(Js) <- NULL
