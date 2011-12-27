@@ -1,4 +1,5 @@
 require(ggplot2)
+setwd('~/code/ml/cs229/02_log_reg/mlclass-ex2')
 
 plot_data <- function(data){
     g <- ggplot(data, aes(Exam1, Exam2, colour=Admitted)) + geom_point()
@@ -19,19 +20,6 @@ add_ones <- function(X){
     X <- cbind(rep(1, dim(X)[1]), X)
 }
 
-cost_function <- function(theta, X, Y){
-    m = dim(X)[1]
-    J = 1/m * sum(-t(Y) %*% log(sigmoid(X%*%theta)) - 
-                 t(1-Y) %*% log((1-sigmoid(X%*%theta))))
-    return(J)
-}
-
-gradient <- function(X, Y, theta, m){
-    #compute the gradient for one value of theta
-    grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - Y))
-    return(grad)
-}
-
 gradient_descent <- function(X, Y, theta, alpha, iterations){
     m <- dim(X)[1]
     J = matrix(0, iterations)
@@ -47,7 +35,6 @@ gradient_descent <- function(X, Y, theta, alpha, iterations){
     return(r)
 }
 
-
 plot_cost <- function(Js, alpha){
     # Another function copied from lin_reg_mult.R
     # Find a better way!
@@ -59,6 +46,20 @@ plot_cost <- function(Js, alpha){
     return(g)
 }
 
+cost_function <- function(theta){
+    m = dim(X)[1]
+    J = 1/m * sum(-t(Y) %*% log(sigmoid(X%*%theta)) - 
+                 t(1-Y) %*% log((1-sigmoid(X%*%theta))))
+    return(J)
+}
+
+gradient <- function(theta){
+    #compute the gradient for one value of theta
+    m <- dim(X)[1]
+    grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - Y))
+    return(grad)
+}
+
 data <- read.csv('ex2data1.txt', header=FALSE)
 X <- as.matrix(data[, -length(data)])
 Y <- as.matrix(data[, length(data)])
@@ -68,6 +69,9 @@ data <- transform(data, Admitted = factor(Admitted))
 g <- plot_data(data)
 #ggsave(filename='initial_plot.jpeg', plot=g)
 theta_init <- matrix(0, dim(X)[2])
+parms <- list(X=X, Y=Y, theta=theta_init)
+sol <- optim(theta_init, cost_function, gradient)
+
 
 # alpha =. 15, after 14M iterations
 #theta_init <- matrix(c(-21.7108, .1786, .1735))
