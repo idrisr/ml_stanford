@@ -65,8 +65,6 @@ calc_accuracy <- function(theta){
     return(predict)
 }
 
-plot_diff_method <- function(theta1, theta2){}
-
 data <- read.csv('ex2data1.txt', header=FALSE)
 X <- as.matrix(data[, -length(data)])
 Y <- as.matrix(data[, length(data)])
@@ -93,6 +91,8 @@ g <- plot_cost(Js, alpha)
 #filename = paste('Alpha_', alpha, "_", 'Iterations_', iterations, '.jpeg', sep='')
 #ggsave(filename = filename, plot = g)
 
+print("Accuracy of Gradient Descent")
+print(mean(Y==calc_accuracy(theta.gd)))
 
-
-
+print("Accuracy of Optimized Method")
+print(mean(Y==calc_accuracy(theta.opt)))
