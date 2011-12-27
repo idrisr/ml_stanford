@@ -26,19 +26,27 @@ cost_function <- function(theta, X, Y){
     return(J)
 }
 
+gradient <- function(X, Y, theta, m){
+    #compute the gradient for one value of theta
+    grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - Y))
+    return(grad)
+}
+
 gradient_descent <- function(X, Y, theta, alpha, iterations){
     m <- dim(X)[1]
     J = matrix(0, iterations)
     for(i in 1:iterations){
         # Wait - this isn't the right cost function
         # Let's graph it before and after and see what happens
-        grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - Y))
+        #grad <- 1/m * (t(X) %*% (sigmoid(X%*%theta) - Y))
+        grad <- gradient(X, Y, theta, m)
         theta <- theta - (alpha/m * grad)
         J[i] = cost_function(theta, X, Y)
     }
     r = list(theta=theta, J=J)
     return(r)
 }
+
 
 plot_cost <- function(Js, alpha){
     # Another function copied from lin_reg_mult.R
@@ -65,14 +73,14 @@ theta_init <- matrix(0, dim(X)[2])
 #theta_init <- matrix(c(-21.7108, .1786, .1735))
 
 J_init <- cost_function(theta_init, X, Y)
-#print(J_init)
-#iterations <- 10000000
-#alpha <- .15
-#r <- gradient_descent(X, Y, theta_init, alpha, iterations)
-#theta <- r["theta"]
-#Js <- as.data.frame(r["J"])
-#rownames(Js) <- NULL
-#names(Js) <- 'Cost'
+print(J_init)
+iterations <- 1000
+alpha <- .1
+r <- gradient_descent(X, Y, theta_init, alpha, iterations)
+theta <- r["theta"]
+Js <- as.data.frame(r["J"])
+rownames(Js) <- NULL
+names(Js) <- 'Cost'
 #g <- plot_cost(Js, alpha)
 #filename = paste('Alpha_', alpha, "_", 'Iterations_', iterations, '.jpeg', sep='')
 #ggsave(filename = filename, plot = g)
