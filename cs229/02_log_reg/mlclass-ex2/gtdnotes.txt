@@ -1,5 +1,6 @@
 http://www.youtube.com/watch?v=Qo7vUdKTlhk
-David Allen: Getting Things Done 
+David Allen: Getting Things Done
+Google Talk in 20007
 
 If you don't trust a system it pops into your head
 
@@ -52,8 +53,8 @@ Mastering Workflow: The five keys to gaining control
 Horizon of focus: The six levels of work
 
 ***Mastring Workfolow***
-1. Collect everything that has potential meeting -- this can take a while to do the
-full dump
+1. Collect everything that has potential meeting -- this can take a while to do 
+the full dump
 
 Anything that isn't supplies, decoration, equipment, reference material 
 shouldnt be there 
@@ -73,7 +74,6 @@ mind will keep going back to it
 5. Do
 
 ***Horizons of Focus***
-
 50,000 ft - purpose, principles
 40,000 ft - vision
 30,000 ft - goals
@@ -83,3 +83,22 @@ step
 Runway - next actions - all this boils down to like 150 or so next actions
 
 Go from bottom up, cause that's where our minds are right now!
+
+***The old models***
+Only dealt with one aspect
+Were not complete
+If you only have half of your committments tracked, it's not worth it. It's more
+work than it's work
+Compressed the models
+Disconnected from reality
+Were system-dependent
+
+***How we came up with this***
+I needed a better job
+I'm lazy
+I'm enthralled with efficient process
+I value clear space
+
+Damn, I'm just like him!
+
+He digs the inbox zero!
