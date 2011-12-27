@@ -29,7 +29,7 @@ plot_contour <- function(){
     Js <- rep(0, dim(xy)[1])
     for(i in 1:dim(xy)[1]){
         #theta = as.vector(xy[i,])
-        Js[i] = fr(xy[i,])
+        Js[i] = grr(xy[i,])
     }
     df <- data.frame(xy, Js)
     g <- ggplot(df, aes(xs, ys, z=log(Js))) + 
@@ -39,6 +39,7 @@ plot_contour <- function(){
 
 x <- c(-1.2, 1) 
 f1 <- optim(x, fr)
+f1 <- optim(x, grr)
 f2 <- optim(x, fr, grr, method = "BFGS")
 f3 <- optim(x, fr, NULL, method = "BFGS", hessian = TRUE)
 
