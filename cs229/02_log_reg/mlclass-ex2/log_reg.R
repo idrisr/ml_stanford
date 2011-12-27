@@ -72,15 +72,15 @@ theta_init <- matrix(0, dim(X)[2])
 # alpha =. 15, after 14M iterations
 #theta_init <- matrix(c(-21.7108, .1786, .1735))
 
-J_init <- cost_function(theta_init, X, Y)
-print(J_init)
-iterations <- 1000
-alpha <- .1
-r <- gradient_descent(X, Y, theta_init, alpha, iterations)
-theta <- r["theta"]
-Js <- as.data.frame(r["J"])
-rownames(Js) <- NULL
-names(Js) <- 'Cost'
+#J_init <- cost_function(theta_init, X, Y)
+#print(J_init)
+#iterations <- 1000
+#alpha <- .1
+#r <- gradient_descent(X, Y, theta_init, alpha, iterations)
+#theta <- r["theta"]
+#Js <- as.data.frame(r["J"])
+#rownames(Js) <- NULL
+#names(Js) <- 'Cost'
 #g <- plot_cost(Js, alpha)
 #filename = paste('Alpha_', alpha, "_", 'Iterations_', iterations, '.jpeg', sep='')
 #ggsave(filename = filename, plot = g)
