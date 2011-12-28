@@ -73,6 +73,15 @@ decision_boundary <- function(x, theta){
 }
 
 plot_decision_boundary <- function(data, theta){
+    #Do this
+    #g <- ggplot(data, aes(Exam1, Exam2, pred, Admitted))
+
+    ## add color
+    #g <- g + geom_point(aes(x=Exam1, y = Exam2))
+    #g <- g + geom_line(aes(x=Exam1, y = pred))
+
+
+        
     g <- plot_data(data)
     g <- g + geom_point(aes("Exam1", "pred"))
     return(g)
