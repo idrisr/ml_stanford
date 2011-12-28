@@ -4,7 +4,7 @@ require(ggplot2)
 plot_data <- function(){
     # figure out how to add labels -- see the R work code I've done for examples
     # on tweaking options
-    g <- ggplot(data, aes(V1, V2, V3))
+    g <- ggplot(data) 
     g <- g + geom_point(aes(x=V1, y=V2, colour=V3))
     return(g)
 }
@@ -24,10 +24,10 @@ feature_map <- function(){
     return(out)
 }
 
-
 data <- read.csv('ex2data2.txt', header=FALSE)
 data$V3 <- factor(data$V3)
 
 # don't pass in data since we don't have to.
-#g <- plot_data()
+g <- plot_data()
 X <- feature_map()
+theta.init <- matrix(0, dim(X)[2])
