@@ -24,6 +24,31 @@ feature_map <- function(){
     return(out)
 }
 
+#Objective 3: create cost function
+compute_cost <- function(lambda){
+    #% Initialize some useful values
+    #m = length(y); % number of training examples
+
+    #% You need to return the following variables correctly 
+    #J = 0;
+    #grad = zeros(size(theta));
+
+    #% ====================== YOUR CODE HERE ======================
+    #% Instructions: Compute the cost of a particular choice of theta.
+    #%               You should set J to the cost.
+    #%               Compute the partial derivatives and set grad to the partial
+    #%               derivatives of the cost w.r.t. each parameter in theta
+
+    #theta_len = size(theta)(1);
+    #J = 1/m * sum(-y' * log(sigmoid(X*theta)) - (1-y)'*log(1-sigmoid(X*theta)));
+    #J += lambda/(2*m) * sum(theta(2:theta_len,:).^2);
+    #grad = 1/m * X'*(sigmoid(X*theta) - y);
+    #grad(2:theta_len, :) = grad(2:theta_len, :) + lambda/m .* theta(2:theta_len,:);
+
+    #% =============================================================
+
+    #end
+}
 data <- read.csv('ex2data2.txt', header=FALSE)
 data$V3 <- factor(data$V3)
 
