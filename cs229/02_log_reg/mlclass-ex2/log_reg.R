@@ -2,8 +2,10 @@ require(ggplot2)
 setwd('~/code/ml/cs229/02_log_reg/mlclass-ex2')
 
 plot_data <- function(data){
-    g <- ggplot(data, aes(Exam1, Exam2, colour=Admitted)) + geom_point()
+    g <- ggplot(data) + geom_point(aes(Exam1, Exam2, colour=Admitted))
+    print(names(data))
     g <- g + opts(title = "Admittance based on 2 Exams")
+    return(g)
 }
 
 sigmoid <- function(X){
@@ -65,10 +67,17 @@ calc_accuracy <- function(theta){
     return(predict)
 }
 
-decision_boundary <- function(theta){
-    plot_x <- c(min(X[,2])-2,  max(X[,2])+2)
-    plot_y <- (-1./theta[3]) * (theta[2] * plot_x + theta[1])
+decision_boundary <- function(x, theta){
+    y <- (-1./theta[3]) * (theta[2] * x + theta[1])
+    return(y)
 }
+
+plot_decision_boundary <- function(data, theta){
+    g <- plot_data(data)
+    g <- g + geom_point(aes("Exam1", "pred"))
+    return(g)
+}
+
 
 data <- read.csv('ex2data1.txt', header=FALSE)
 X <- as.matrix(data[, -length(data)])
@@ -84,7 +93,7 @@ parms <- list(X=X, Y=Y, theta=theta_init)
 # Why doesn't gradient cause any difference?
 theta.opt <- optim(theta_init, cost_function, gradient)$par
 
-iterations <- 1000
+iterations <- 10
 alpha <- .1
 r <- gradient_descent(theta_init, alpha, iterations)
 theta.gd <- as.matrix(r[["theta"]])
@@ -101,3 +110,5 @@ print(mean(Y==calc_accuracy(theta.gd)))
 
 print("Accuracy of Optimized Method")
 print(mean(Y==calc_accuracy(theta.opt)))
+data$pred <- sapply(data$Exam1, function(x) decision_boundary(x, theta.opt))
+plot_decision_boundary(data, theta.opt)
