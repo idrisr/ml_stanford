@@ -65,14 +65,19 @@ calc_accuracy <- function(theta){
     return(predict)
 }
 
+decision_boundary <- function(theta){
+    plot_x <- c(min(X[,2])-2,  max(X[,2])+2)
+    plot_y <- (-1./theta[3]) * (theta[2] * plot_x + theta[1])
+}
+
 data <- read.csv('ex2data1.txt', header=FALSE)
 X <- as.matrix(data[, -length(data)])
 Y <- as.matrix(data[, length(data)])
 X <- add_ones(X)
 names(data) <- c('Exam1', 'Exam2', 'Admitted')
 data <- transform(data, Admitted = factor(Admitted))
-g <- plot_data(data)
-#ggsave(filename='initial_plot.jpeg', plot=g)
+g.init <- plot_data(data)
+#ggsave(filename='initial_plot.jpeg', plot=g.init)
 theta_init <- matrix(0, dim(X)[2])
 parms <- list(X=X, Y=Y, theta=theta_init)
 
