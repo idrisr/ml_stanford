@@ -72,14 +72,38 @@ decision_boundary <- function(x, theta){
     return(y)
 }
 
-plot_decision_boundary <- function(data){
-    g <- ggplot(data, aes(Exam1, Exam2, pred.opt, pred.gd, Admitted))
-    g <- g + geom_point(aes(x=Exam1, y = Exam2, colour=Admitted))
-    g <- g + geom_line(aes(x=Exam1, y = pred.opt, colour='blue', label='Opt'))
-    g <- g + geom_line(aes(x=Exam1, y = pred.gd, colour='green'))
+plot_decision_boundary <- function(data, title){
+    g <- ggplot(data, aes(Exam1, Exam2, pred, Admitted))
+    g <- g + geom_point(aes(x=Exam1, y=Exam2, colour=Admitted))
+    g <- g + geom_line(aes(x=Exam1, y=pred))
+    g <- g + opts(title = title)
     return(g)
 }
 
+vp.layout <- function(x, y) viewport(layout.pos.row=x, layout.pos.col=y)
+
+arrange <- function(..., nrow=NULL, ncol=NULL, as.table=FALSE) {
+    dots <- list(...)
+    n <- length(dots)
+  if(is.null(nrow) & is.null(ncol)) { nrow = floor(n/2) ; ncol =
+ ceiling(n/nrow)}
+  if(is.null(nrow)) { nrow = ceiling(n/ncol)}
+   if(is.null(ncol)) { ncol = ceiling(n/nrow)}
+         ## NOTE see n2mfrow in grDevices for possible alternative
+ grid.newpage()
+ pushViewport(viewport(layout=grid.layout(nrow,ncol) ) )
+  ii.p <- 1
+  for(ii.row in seq(1, nrow)){
+       ii.table.row <- ii.row
+   if(as.table) {ii.table.row <- nrow - ii.table.row + 1}
+     for(ii.col in seq(1, ncol)){
+            ii.table <- ii.p
+      if(ii.p > n) break
+         print(dots[[ii.table]], vp=vp.layout(ii.table.row, ii.col))
+         ii.p <- ii.p + 1
+           }
+    }
+}
 
 data <- read.csv('ex2data1.txt', header=FALSE)
 X <- as.matrix(data[, -length(data)])
@@ -112,7 +136,12 @@ print(mean(Y==calc_accuracy(theta.gd)))
 
 print("Accuracy of Optimized Method")
 print(mean(Y==calc_accuracy(theta.opt)))
-data$pred.opt <- sapply(data$Exam1, function(x) decision_boundary(x, theta.opt))
-data$pred.gd <- sapply(data$Exam1, function(x) decision_boundary(x, theta.gd))
-p1 <- plot_decision_boundary(data)
-p1
+
+# Obviously, there are better ways to do this. But for the sake of moving on...
+data.opt <- data
+data.gd  <- data
+data.opt$pred <- sapply(data$Exam1, function(x) decision_boundary(x, theta.opt))
+data.gd$pred <- sapply(data$Exam1, function(x) decision_boundary(x, theta.gd))
+p1 <- plot_decision_boundary(data.opt, "Optimized Function")
+p2 <- plot_decision_boundary(data.gd, "Gradient Descent")
+arrange(p1, p2, ncol=1)
