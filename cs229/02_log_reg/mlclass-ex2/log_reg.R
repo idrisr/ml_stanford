@@ -75,7 +75,7 @@ decision_boundary <- function(x, theta){
 plot_decision_boundary <- function(data){
     g <- ggplot(data, aes(Exam1, Exam2, pred.opt, pred.gd, Admitted))
     g <- g + geom_point(aes(x=Exam1, y = Exam2, colour=Admitted))
-    g <- g + geom_line(aes(x=Exam1, y = pred.opt, colour='blue'))
+    g <- g + geom_line(aes(x=Exam1, y = pred.opt, colour='blue', label='Opt'))
     g <- g + geom_line(aes(x=Exam1, y = pred.gd, colour='green'))
     return(g)
 }
@@ -95,7 +95,7 @@ parms <- list(X=X, Y=Y, theta=theta_init)
 # Why doesn't gradient cause any difference?
 theta.opt <- optim(theta_init, cost_function, gradient)$par
 
-iterations <- 10000
+iterations <- 100
 alpha <- .1
 r <- gradient_descent(theta_init, alpha, iterations)
 theta.gd <- as.matrix(r[["theta"]])
