@@ -11,16 +11,6 @@ plot_data <- function(){
 
 # Objective 2: Create 28 more 6th degree features
 feature_map <- function(){
-    # Octave code
-    #degree = 6;
-    #out = ones(size(X1(:,1)));
-    #for i = 1:degree
-        #for j = 0:i
-            #out(:, end+1) = (X1.^(i-j)).*(X2.^j);
-        #end
-    #end
-
-    #end
     X1 <- as.matrix(data[,1])
     X2 <- as.matrix(data[,2])
     out <- matrix(1, dim(X1))
