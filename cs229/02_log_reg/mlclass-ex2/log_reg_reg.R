@@ -28,6 +28,7 @@ feature_map <- function(){
 compute_cost <- function(lambda){
     #% Initialize some useful values
     #m = length(y); % number of training examples
+    m <- length(Y)
 
     #% You need to return the following variables correctly 
     #J = 0;
@@ -50,9 +51,11 @@ compute_cost <- function(lambda){
     #end
 }
 data <- read.csv('ex2data2.txt', header=FALSE)
+Y <- as.matrix(data$V3)
 data$V3 <- factor(data$V3)
 
 # don't pass in data since we don't have to.
 g <- plot_data()
 X <- feature_map()
+#Y <- as.matrix(as.numeric(data$V3))
 theta.init <- matrix(0, dim(X)[2])
