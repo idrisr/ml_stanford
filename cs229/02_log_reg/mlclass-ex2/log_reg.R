@@ -80,6 +80,8 @@ plot_decision_boundary <- function(data, title){
     return(g)
 }
 
+#Following two function from here:
+#http://gettinggeneticsdone.blogspot.com/2010/03/arrange-multiple-ggplot2-plots-in-same.html
 vp.layout <- function(x, y) viewport(layout.pos.row=x, layout.pos.col=y)
 
 arrange <- function(..., nrow=NULL, ncol=NULL, as.table=FALSE) {
@@ -127,7 +129,7 @@ parms <- list(X=X, Y=Y, theta=theta_init)
 # Why doesn't gradient cause any difference?
 theta.opt <- optim(theta_init, cost_function, gradient)$par
 
-iterations <- 10
+iterations <- 10000
 alpha <- .1
 r <- gradient_descent(theta_init, alpha, iterations)
 theta.gd <- as.matrix(r[["theta"]])
@@ -151,6 +153,8 @@ data.gd  <- data
 data.opt$pred <- sapply(data$Exam1, function(x) decision_boundary(x, theta.opt))
 data.gd$pred <- sapply(data$Exam1, function(x) decision_boundary(x, theta.gd))
 p1 <- plot_decision_boundary(data.opt, "Optimized Function")
-p2 <- plot_decision_boundary(data.gd, "Gradient Descent after 1M iterations, alpha = 0.1")
+p2 <- plot_decision_boundary(data.gd, "Gradient Descent after 10K iterations, alpha = 0.1")
+
+# Saving this image through screenshot ;>
 p <- arrange(p1, p2, ncol=1)
-ggsave(filename='Comparison_2_techniques.jpeg', plot=p)
+
