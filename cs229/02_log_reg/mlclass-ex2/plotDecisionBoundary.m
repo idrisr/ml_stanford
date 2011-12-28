@@ -14,10 +14,18 @@ hold on
 
 if size(X, 2) <= 3
     % Only need 2 points to define a line, so choose two endpoints
+    % Calc min and max X1 value (which is on X axis), and give margin of +-2
     plot_x = [min(X(:,2))-2,  max(X(:,2))+2];
 
     % Calculate the decision boundary line
-    plot_y = (-1./theta(3)).*(theta(2).*plot_x + theta(1));
+    % (-1./theta(3)) : take element wise inverse of theta[3]
+
+    % (theta(2).*plot_x + theta(1)) : figure out X2 (on y axis), which is a
+    %      function of X1 and X0
+    % Then do element wise multiplication of the two above quantities, 
+    % which gives two end points of a line (X1_1, X2_1) and (X1_2, X2_2) 
+
+    plot_y = (-1./theta(3)) .* (theta(2).*plot_x + theta(1));
 
     % Plot, and adjust axes for better viewing
     plot(plot_x, plot_y)
