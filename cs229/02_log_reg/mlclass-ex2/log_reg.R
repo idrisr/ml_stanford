@@ -75,8 +75,8 @@ decision_boundary <- function(x, theta){
 plot_decision_boundary <- function(data){
     g <- ggplot(data, aes(Exam1, Exam2, pred.opt, pred.gd, Admitted))
     g <- g + geom_point(aes(x=Exam1, y = Exam2, colour=Admitted))
-    g <- g + geom_line(aes(x=Exam1, y = pred.opt))
-    g <- g + geom_line(aes(x=Exam1, y = pred.gd))
+    g <- g + geom_line(aes(x=Exam1, y = pred.opt, colour='blue'))
+    g <- g + geom_line(aes(x=Exam1, y = pred.gd, colour='green'))
     return(g)
 }
 
@@ -115,3 +115,4 @@ print(mean(Y==calc_accuracy(theta.opt)))
 data$pred.opt <- sapply(data$Exam1, function(x) decision_boundary(x, theta.opt))
 data$pred.gd <- sapply(data$Exam1, function(x) decision_boundary(x, theta.gd))
 p1 <- plot_decision_boundary(data)
+p1
