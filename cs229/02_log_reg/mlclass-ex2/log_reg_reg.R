@@ -43,7 +43,7 @@ compute_cost <- function(lambda){
     #%               derivatives of the cost w.r.t. each parameter in theta
 
     #theta_len = size(theta)(1);
-    theta_len <- dim(theta.init)
+    theta_len <- dim(theta.init)[1]
     #J = 1/m * sum(-y' * log(sigmoid(X*theta)) - (1-y)'*log(1-sigmoid(X*theta)));
     #J += lambda/(2*m) * sum(theta(2:theta_len,:).^2);
     #grad = 1/m * X'*(sigmoid(X*theta) - y);
