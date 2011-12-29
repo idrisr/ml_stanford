@@ -66,7 +66,7 @@ compute_cost <- function(thetax, lambda){
     #end
 }
 
-gradient <- function(theta){
+gradient <- function(...){
     m <- length(theta)
     grad <- 1/m * t(X) %*% (sigmoid(X %*% theta) - Y)
     grad[2:m] <- grad[2:m] + lambda/m * theta[2:m]
@@ -74,7 +74,7 @@ gradient <- function(theta){
 
 }
 
-lambda <- 1
+lambda <- 10
 data <- read.csv('ex2data2.txt', header=FALSE)
 Y <- as.matrix(data$V3)
 X <- feature_map()
@@ -86,6 +86,10 @@ theta <- matrix(1, dim(X)[2])
 J <- compute_cost(theta, lambda)
 print(J)
 opt <- optim(theta, compute_cost, gradient, lambda, method=c('CG'))
+#opt <- optim(theta, compute_cost, NULL, lambda, method=c('CG'))
 gradient(theta)
 J <- compute_cost(opt$par, lambda)
 print(J)
+pred <- sigmoid(X %*% opt$par) >= 0.5
+pred.qual <- mean(Y == pred)
+pred.qual
