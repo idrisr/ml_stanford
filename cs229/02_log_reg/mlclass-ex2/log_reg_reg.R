@@ -1,5 +1,11 @@
 require(ggplot2)
 
+sigmoid <- function(X){
+    #Takes a m by 1 matrix and returns its sigmoid between 0 and 1
+    X <- 1 / (1+exp(-X))
+    return(X)
+}
+
 # Objective 1: Plot Data
 plot_data <- function(){
     # figure out how to add labels -- see the R work code I've done for examples
@@ -25,7 +31,7 @@ feature_map <- function(){
 }
 
 #Objective 3: create cost function
-compute_cost <- function(lambda){
+compute_cost <- function(lambda, theta){
     #% Initialize some useful values
     #m = length(y); % number of training examples
     m <- length(Y)
@@ -34,7 +40,7 @@ compute_cost <- function(lambda){
     #J = 0;
     J <- 0
     #grad = zeros(size(theta));
-    grad <- matrix(0, dim(theta.init))
+    grad <- matrix(0, dim(theta))
 
     #% ====================== YOUR CODE HERE ======================
     #% Instructions: Compute the cost of a particular choice of theta.
@@ -44,8 +50,13 @@ compute_cost <- function(lambda){
 
     #theta_len = size(theta)(1);
     theta_len <- dim(theta.init)[1]
+
     #J = 1/m * sum(-y' * log(sigmoid(X*theta)) - (1-y)'*log(1-sigmoid(X*theta)));
+    J <- 1/m * sum(-t(Y)   %*% log(    sigmoid(X %*% theta)) - 
+                    t(1-Y) %*% log(1 - sigmoid(X %*% theta))) 
+
     #J += lambda/(2*m) * sum(theta(2:theta_len,:).^2);
+    J <- J + lambda/(2*m) * sum(theta[2:theta_len,])
     #grad = 1/m * X'*(sigmoid(X*theta) - y);
     #grad(2:theta_len, :) = grad(2:theta_len, :) + lambda/m .* theta(2:theta_len,:);
 
@@ -61,3 +72,5 @@ X <- feature_map()
 data$V3 <- factor(data$V3)
 g <- plot_data()
 theta.init <- matrix(0, dim(X)[2])
+compute_cost(1, theta.init)
+
