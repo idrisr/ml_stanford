@@ -59,12 +59,11 @@ X = mapFeature(X(:,1), X(:,2));
 
 % Initialize fitting parameters
 initial_theta = zeros(size(X, 2), 1);
+initial_theta = ones(size(X, 2), 1);
 
 % Set regularization parameter lambda to 1
 lambda = 1;
 
-% Compute and display initial cost and gradient for regularized logistic
-% regression
 [cost, grad] = costFunctionReg(initial_theta, X, y, lambda);
 
 fprintf('Cost at initial theta (zeros): %f\n', cost);
@@ -97,6 +96,12 @@ options = optimset('GradObj', 'on', 'MaxIter', 400);
 % Optimize
 [theta, J, exit_flag] = ...
 	fminunc(@(t)(costFunctionReg(t, X, y, lambda)), initial_theta, options);
+
+[cost, grad] = costFunctionReg(theta, X, y, lambda);
+
+fprintf('Cost at optimal theta: %f\n', cost);
+fprintf('\nProgram paused. Press enter to continue.\n');
+theta
 
 % Plot Boundary
 plotDecisionBoundary(theta, X, y);
