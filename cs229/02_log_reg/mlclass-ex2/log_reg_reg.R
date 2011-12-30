@@ -6,7 +6,7 @@ sigmoid <- function(X){
     return(X)
 }
 
-# Objective 1: Plot Data
+# Plot Data Original Data
 plot_data <- function(){
     # figure out how to add labels -- see the R work code I've done for examples
     # on tweaking options
@@ -15,7 +15,7 @@ plot_data <- function(){
     return(g)
 }
 
-# Objective 2: Create 28 more 6th degree features
+# Create all 6th degree features
 feature_map <- function(X1, X2){
     out <- matrix(1, length(X1))
     degree <- 6
@@ -28,22 +28,20 @@ feature_map <- function(X1, X2){
     return(out)
 }
 
-#Objective 3: create cost function
-compute_cost <- function(thetax, lambda){
+# Cost Function
+compute_cost <- function(theta, lambda){
     m <- length(Y)
-
     J <- 0
-    grad <- as.matrix(0, dim(thetax)[1])
+    grad <- as.matrix(0, dim(theta)[1])
+    theta_len <- length(theta)
+    J <- 1/m * sum(-t(Y)   %*% log(    sigmoid(X %*% theta)) - 
+                    t(1-Y) %*% log(1 - sigmoid(X %*% theta))) 
 
-    thetax_len <- length(thetax)
-
-    J <- 1/m * sum(-t(Y)   %*% log(    sigmoid(X %*% thetax)) - 
-                    t(1-Y) %*% log(1 - sigmoid(X %*% thetax))) 
-
-    J <- J + lambda/(2*m) * sum(thetax[2:thetax_len])
+    J <- J + lambda/(2*m) * sum(theta[2:theta_len])
     return(J)
 }
 
+# Gradient
 gradient <- function(theta, lambda){
     m <- length(theta)
     grad <- 1/m * t(X) %*% (sigmoid(X %*% theta) - Y)
@@ -51,64 +49,22 @@ gradient <- function(theta, lambda){
     return(grad)
 }
 
-decision_boundary <- function(theta){
-    #u = linspace(-1, 1.5, 50);
-    #v = linspace(-1, 1.5, 50);
-    x <- seq(-1, 1.5, length = 50)
-    y <- seq(-1, 1.5, length = 50)
-    xs <- sapply(x, function(x) rep(x, length(y)))
-    xs <- as.vector(xs)
-    ys <- rep(y, length(x))
-    xy <- cbind(xs, ys)
-
-    #z = zeros(length(u), length(v));
-    z <- matrix(0, dim(xy)[1])
-    for(i in 1:dim(xy)[1]){
-        z[i] <- feature_map(xy[i,1], xy[i,2]) %*% theta
-    }
-    df <- data.frame(xy, z)
-    g <- ggplot(df, aes(xs, ys, z=z)) + 
-        geom_contour(aes(colour=..level..), bins = 1)
-    return(g)
-
-    #% Evaluate z = theta*x over the grid
-    #for i = 1:length(u)
-        #for j = 1:length(v)
-            #z(i,j) = mapFeature(u(i), v(j))*theta;
-        #end
-    #end
-
-    #z = z'; % important to transpose z before calling contour
-
-    #% Plot z = 0
-    #% Notice you need to specify the range [0, 0]
-    #contour(u, v, z, [0, 0], 'LineWidth', 2)
-
-}
-
+# how well does model match training data
 pred_quality <- function(opt){
     pred <- sigmoid(X %*% opt$par) >= 0.5
     pred.qual <- mean(Y == pred)
     return(pred.qual)
 }
 
-plot_decision_boundary <- function(data, title){
-    g <- ggplot(data, aes(V1, V2, pred, V3))
-    g <- g + geom_point(aes(x=V1, y=V2, colour=V3))
-    g <- g + geom_line(aes(x=V1, y=pred))
-    g <- g + opts(title = title)
-    return(g)
-}
-# Objective 4: Plot decision boundary
-
-lambda <- 0
+lambda <- 0.5
 data <- read.csv('ex2data2.txt', header=FALSE)
 Y <- as.matrix(data$V3)
 X1 <- as.matrix(data[,1])
 X2 <- as.matrix(data[,2])
+
+# Create all 6th degree polynomials
 X <- feature_map(X1, X2)
 
-# don't pass in data since we don't have to.
 data$V3 <- factor(data$V3)
 g <- plot_data()
 theta <- matrix(1, dim(X)[2])
@@ -118,16 +74,14 @@ iter <- 4000
 opt.grad <- optim(theta, compute_cost, gradient, lambda, method=c('CG'),
              control=list(maxit=iter))
 opt.nograd <- optim(theta, compute_cost, NULL, lambda, method=c('CG'))
+J.grad <- compute_cost(opt.grad$par, lambda)
+J.nograd <- compute_cost(opt.nograd$par, lambda)
+print(J.grad)
+print(J.nograd)
 
-theta.grad <- opt.grad$par
-theta.nograd <- opt.nograd$par
-#decision_boundary(theta.grad)
-decision_boundary(theta.nograd)
+print(opt.grad$value)
+print(opt.nograd$value)
 
+pred_quality(opt.grad)
+pred_quality(opt.nograd)
 
-#data.grad <- data
-#data.nograd <- data
-#data.grad$pred <- sapply(data$V1, function(x) decision_boundary(x, theta.grad))
-#data.nograd$pred <- sapply(data$V1, function(x) decision_boundary(x, theta.nograd))
-#p1 <- plot_decision_boundary(data.grad, "With Gradient")
-#p2 <- plot_decision_boundary(data.nograd, "Without Gradient")
