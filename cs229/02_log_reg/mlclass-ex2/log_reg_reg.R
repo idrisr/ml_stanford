@@ -17,7 +17,7 @@ plot_data <- function(){
 
 # Objective 2: Create 28 more 6th degree features
 feature_map <- function(X1, X2){
-    out <- matrix(1, dim(X1))
+    out <- matrix(1, length(X1))
     degree <- 6
     for(i in 1:degree){
         for(j in 0:i){
