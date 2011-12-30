@@ -16,9 +16,7 @@ plot_data <- function(){
 }
 
 # Objective 2: Create 28 more 6th degree features
-feature_map <- function(){
-    X1 <- as.matrix(data[,1])
-    X2 <- as.matrix(data[,2])
+feature_map <- function(X1, X2){
     out <- matrix(1, dim(X1))
     degree <- 6
     for(i in 1:degree){
@@ -74,6 +72,7 @@ gradient <- function(theta, lambda){
 }
 
 decision_boundary <- function(x, theta){
+
     y <- (-1./theta[3]) * (theta[2] * x + theta[1])
     return(y)
 }
@@ -96,7 +95,9 @@ plot_decision_boundary <- function(data, title){
 lambda <- -1
 data <- read.csv('ex2data2.txt', header=FALSE)
 Y <- as.matrix(data$V3)
-X <- feature_map()
+X1 <- as.matrix(data[,1])
+X2 <- as.matrix(data[,2])
+X <- feature_map(X1, X2)
 
 # don't pass in data since we don't have to.
 data$V3 <- factor(data$V3)
