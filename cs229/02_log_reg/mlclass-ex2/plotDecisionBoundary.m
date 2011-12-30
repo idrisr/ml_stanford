@@ -46,6 +46,7 @@ else
             z(i,j) = mapFeature(u(i), v(j))*theta;
         end
     end
+    z
     z = z'; % important to transpose z before calling contour
 
     % Plot z = 0
