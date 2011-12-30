@@ -62,7 +62,7 @@ initial_theta = zeros(size(X, 2), 1);
 initial_theta = ones(size(X, 2), 1);
 
 % Set regularization parameter lambda to 1
-lambda = 1;
+lambda = 0;
 
 [cost, grad] = costFunctionReg(initial_theta, X, y, lambda);
 
