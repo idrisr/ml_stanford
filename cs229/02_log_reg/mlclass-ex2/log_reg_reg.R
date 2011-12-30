@@ -30,38 +30,18 @@ feature_map <- function(X1, X2){
 
 #Objective 3: create cost function
 compute_cost <- function(thetax, lambda){
-    #e% Initialize some useful values
-    #m = length(y); % number of training examples
     m <- length(Y)
 
-    #% You need to return the following variables correctly 
-    #J = 0;
     J <- 0
-    #grad = zeros(size(thetax));
     grad <- as.matrix(0, dim(thetax)[1])
 
-    #% ====================== YOUR CODE HERE ======================
-    #% Instructions: Compute the cost of a particular choice of thetax.
-    #%               You should set J to the cost.
-    #%               Compute the partial derivatives and set grad to the partial
-    #%               derivatives of the cost w.r.t. each parameter in thetax
-
-    #thetax_len = size(thetax)(1);
     thetax_len <- length(thetax)
 
-    #J = 1/m * sum(-y' * log(sigmoid(X*thetax)) - (1-y)'*log(1-sigmoid(X*thetax)));
     J <- 1/m * sum(-t(Y)   %*% log(    sigmoid(X %*% thetax)) - 
                     t(1-Y) %*% log(1 - sigmoid(X %*% thetax))) 
 
-    #J += lambda/(2*m) * sum(thetax(2:thetax_len,:).^2);
     J <- J + lambda/(2*m) * sum(thetax[2:thetax_len])
     return(J)
-    #grad = 1/m * X'*(sigmoid(X*thetax) - y);
-    #grad(2:thetax_len, :) = grad(2:thetax_len, :) + lambda/m .* thetax(2:thetax_len,:);
-
-    #% =============================================================
-
-    #end
 }
 
 gradient <- function(theta, lambda){
@@ -71,10 +51,39 @@ gradient <- function(theta, lambda){
     return(grad)
 }
 
-decision_boundary <- function(x, theta){
+decision_boundary <- function(theta){
+    #u = linspace(-1, 1.5, 50);
+    #v = linspace(-1, 1.5, 50);
+    x <- seq(-1, 1.5, length = 50)
+    y <- seq(-1, 1.5, length = 50)
+    xs <- sapply(x, function(x) rep(x, length(y)))
+    xs <- as.vector(xs)
+    ys <- rep(y, length(x))
+    xy <- cbind(xs, ys)
 
-    y <- (-1./theta[3]) * (theta[2] * x + theta[1])
-    return(y)
+    #z = zeros(length(u), length(v));
+    z <- matrix(0, dim(xy)[1])
+    for(i in 1:dim(xy)[1]){
+        z[i] <- feature_map(xy[i,1], xy[i,2]) %*% theta
+    }
+    df <- data.frame(xy, z)
+    g <- ggplot(df, aes(xs, ys, z=z)) + 
+        geom_contour(aes(colour=..level..), bins = 1)
+    return(g)
+
+    #% Evaluate z = theta*x over the grid
+    #for i = 1:length(u)
+        #for j = 1:length(v)
+            #z(i,j) = mapFeature(u(i), v(j))*theta;
+        #end
+    #end
+
+    #z = z'; % important to transpose z before calling contour
+
+    #% Plot z = 0
+    #% Notice you need to specify the range [0, 0]
+    #contour(u, v, z, [0, 0], 'LineWidth', 2)
+
 }
 
 pred_quality <- function(opt){
@@ -92,7 +101,7 @@ plot_decision_boundary <- function(data, title){
 }
 # Objective 4: Plot decision boundary
 
-lambda <- -1
+lambda <- 0
 data <- read.csv('ex2data2.txt', header=FALSE)
 Y <- as.matrix(data$V3)
 X1 <- as.matrix(data[,1])
@@ -112,10 +121,13 @@ opt.nograd <- optim(theta, compute_cost, NULL, lambda, method=c('CG'))
 
 theta.grad <- opt.grad$par
 theta.nograd <- opt.nograd$par
+#decision_boundary(theta.grad)
+decision_boundary(theta.nograd)
 
-data.grad <- data
-data.nograd <- data
-data.grad$pred <- sapply(data$V1, function(x) decision_boundary(x, theta.grad))
-data.nograd$pred <- sapply(data$V1, function(x) decision_boundary(x, theta.nograd))
-p1 <- plot_decision_boundary(data.grad, "With Gradient")
-p2 <- plot_decision_boundary(data.nograd, "Without Gradient")
+
+#data.grad <- data
+#data.nograd <- data
+#data.grad$pred <- sapply(data$V1, function(x) decision_boundary(x, theta.grad))
+#data.nograd$pred <- sapply(data$V1, function(x) decision_boundary(x, theta.nograd))
+#p1 <- plot_decision_boundary(data.grad, "With Gradient")
+#p2 <- plot_decision_boundary(data.nograd, "Without Gradient")
