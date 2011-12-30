@@ -73,7 +73,9 @@ gradient <- function(theta, lambda){
     return(grad)
 }
 
-decision_boundary <- function(theta){
+decision_boundary <- function(x, theta){
+    y <- (-1./theta[3]) * (theta[2] * x + theta[1])
+    return(y)
 }
 
 pred_quality <- function(opt){
@@ -82,6 +84,13 @@ pred_quality <- function(opt){
     return(pred.qual)
 }
 
+plot_decision_boundary <- function(data, title){
+    g <- ggplot(data, aes(V1, V2, pred, V3))
+    g <- g + geom_point(aes(x=V1, y=V2, colour=V3))
+    g <- g + geom_line(aes(x=V1, y=pred))
+    g <- g + opts(title = title)
+    return(g)
+}
 # Objective 4: Plot decision boundary
 
 lambda <- -1
@@ -100,5 +109,12 @@ opt.grad <- optim(theta, compute_cost, gradient, lambda, method=c('CG'),
              control=list(maxit=iter))
 opt.nograd <- optim(theta, compute_cost, NULL, lambda, method=c('CG'))
 
-print(pred_quality(opt.grad))
-print(pred_quality(opt.nograd))
+theta.grad <- opt.grad$par
+theta.nograd <- opt.nograd$par
+
+data.grad <- data
+data.nograd <- data
+data.grad$pred <- sapply(data$V1, function(x) decision_boundary(x, theta.grad))
+data.nograd$pred <- sapply(data$V1, function(x) decision_boundary(x, theta.nograd))
+p1 <- plot_decision_boundary(data.grad, "With Gradient")
+p2 <- plot_decision_boundary(data.nograd, "Without Gradient")
