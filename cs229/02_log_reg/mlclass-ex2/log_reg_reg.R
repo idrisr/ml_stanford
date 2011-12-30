@@ -84,4 +84,3 @@ print(opt.nograd$value)
 
 pred_quality(opt.grad)
 pred_quality(opt.nograd)
-
