@@ -66,15 +66,25 @@ compute_cost <- function(thetax, lambda){
     #end
 }
 
-gradient <- function(...){
+gradient <- function(theta, lambda){
     m <- length(theta)
     grad <- 1/m * t(X) %*% (sigmoid(X %*% theta) - Y)
     grad[2:m] <- grad[2:m] + lambda/m * theta[2:m]
     return(grad)
-
 }
 
-lambda <- 10
+decision_boundary <- function(theta){
+}
+
+pred_quality <- function(opt){
+    pred <- sigmoid(X %*% opt$par) >= 0.5
+    pred.qual <- mean(Y == pred)
+    return(pred.qual)
+}
+
+# Objective 4: Plot decision boundary
+
+lambda <- -1
 data <- read.csv('ex2data2.txt', header=FALSE)
 Y <- as.matrix(data$V3)
 X <- feature_map()
@@ -85,11 +95,10 @@ g <- plot_data()
 theta <- matrix(1, dim(X)[2])
 J <- compute_cost(theta, lambda)
 print(J)
-opt <- optim(theta, compute_cost, gradient, lambda, method=c('CG'))
-opt <- optim(theta, compute_cost, NULL, lambda, method=c('CG'))
-gradient(theta)
-J <- compute_cost(opt$par, lambda)
-print(J)
-pred <- sigmoid(X %*% opt$par) >= 0.5
-pred.qual <- mean(Y == pred)
-pred.qual
+iter <- 4000
+opt.grad <- optim(theta, compute_cost, gradient, lambda, method=c('CG'),
+             control=list(maxit=iter))
+opt.nograd <- optim(theta, compute_cost, NULL, lambda, method=c('CG'))
+
+print(pred_quality(opt.grad))
+print(pred_quality(opt.nograd))
