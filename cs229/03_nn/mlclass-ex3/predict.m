@@ -21,6 +21,18 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% add ones to X
+X = [ones(m, 1) X];
+
+% Set A1 with Theta1
+%size(Theta1) = 25 x 41
+%size(Theta2) = 10 x 26
+
+
+
+
+
+% Set A2 with Theta2
 
 
 
