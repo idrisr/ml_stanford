@@ -30,6 +30,15 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+% 1. Create for loop for training on each of K classifiers
+
+% 2. Get results back, and save theta to matrix of k * (N + 1)
+%    Where k is the number of classifiers (digits in this example, and N is the
+%    number of features.
+
+% 3. Go through each result, and take max classifier for each training example m
+
+
 
 
 
