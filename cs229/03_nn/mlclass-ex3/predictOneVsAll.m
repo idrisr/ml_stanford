@@ -30,20 +30,18 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-% 1. Create for loop for training on each of K classifiers
+% 1. calculate cost using each of the K theta values in all_theta
+% X is passed in with ones bias parameter already added
 
-% 2. Get results back, and save theta to matrix of k * (N + 1)
-%    Where k is the number of classifiers (digits in this example, and N is the
-%    number of features.
+% So you basically want a Nxk matrix, then take maxes across each row
+% size(X) = N x m+1
+% size(all_theta) = k x m+1
+% therefore, do a X * all_theta'
 
-% 3. Go through each result, and take max classifier for each training example m
+t = X * all_theta';
 
-
-
-
-
-
-
+%p is the index of the max value
+[x, p] = max(t, [], 2);
 
 % =========================================================================
 
