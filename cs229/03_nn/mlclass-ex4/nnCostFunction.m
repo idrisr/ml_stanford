@@ -41,16 +41,15 @@ Theta2_grad = zeros(size(Theta2));
 
 %convert y to matrix form
 y = eye(10)(y,:);
-p = predict(Theta1, Theta2, X)
 
-J <- 0
+h1 = sigmoid([ones(m, 1) X] * Theta1');
+h2 = sigmoid([ones(m, 1) h1] * Theta2');
 for k=1:num_labels 
-    J += 1/m * sum(  -y(k)'  * log(  sigmoid(X*theta(k))) - 
-                  (1-y(k))' * log(1-sigmoid(X*theta(k))));
-    grad = 1/m * X'*(sigmoid(X*theta) - y);
+    J += 1/m * sum(  -y(:,k)'  * log(h2(:,k)) - 
+                  (1-y(:,k))' * log(1-h2)(:,k));
+                  
+    %grad = 1/m * X'*(sigmoid(X*theta) - y);
 end
-J <- J/m;
-
 
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
@@ -75,25 +74,6 @@ J <- J/m;
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 % -------------------------------------------------------------
 
 % =========================================================================
