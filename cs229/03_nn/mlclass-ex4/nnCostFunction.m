@@ -45,11 +45,14 @@ y = eye(10)(y,:);
 h1 = sigmoid([ones(m, 1) X] * Theta1');
 h2 = sigmoid([ones(m, 1) h1] * Theta2');
 for k=1:num_labels 
-    J += 1/m * sum(  -y(:,k)'  * log(h2(:,k)) - 
-                  (1-y(:,k))' * log(1-h2)(:,k));
-                  
+    J += 1/m * sum(  -y(:,k)'  *   log(h2(:,k)) - 
+                  (1 -y(:,k))' * log(1-h2)(:,k));
     %grad = 1/m * X'*(sigmoid(X*theta) - y);
 end
+
+r = lambda / (2*m) * (sum(sum(Theta1(:,2:end).^2)) + 
+                      sum(sum(Theta2(:,2:end).^2)));
+J = J + r;
 
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
