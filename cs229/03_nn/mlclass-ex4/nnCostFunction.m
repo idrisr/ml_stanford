@@ -40,7 +40,8 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 
 %convert y to matrix form
-y = eye(10)(y,:)
+y = eye(10)(y,:);
+p = predict(Theta1, Theta2, X)
 
 J <- 0
 for k=1:num_labels 
