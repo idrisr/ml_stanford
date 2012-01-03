@@ -69,7 +69,46 @@ J = J + r;
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
-%
+
+for t=1:m
+    % 1. 
+    % Set the input layer’s values (a(1) ) to the t-th training example x(t) .
+    % Perform a feedforward pass (Figure 2), computing the activations (z (2) ,
+    % a(2) , z (3) , a(3) ) for layers 2 and 3. 
+    % Note that you need to add a +1 term to ensure that the vectors of 
+    % activations for layers a(1) and a(2) also include the bias unit.  In 
+    % Octave, if a 1 is a column vector, adding one corresponds to 
+    % a_1 = [1 ; a 1].
+    a1 = [1 X(t,:)];
+    z2 = a1 * Theta1';
+    a2 = sigmoix(z2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
