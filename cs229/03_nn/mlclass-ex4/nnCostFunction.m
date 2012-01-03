@@ -3,8 +3,8 @@ function [J grad] = nnCostFunction(nn_params, ...
                                    hidden_layer_size, ...
                                    num_labels, ...
                                    X, y, lambda)
-%NNCOSTFUNCTION Implements the neural network cost function for a two layer
-%neural network which performs classification
+% NNCOSTFUNCTION Implements the neural network cost function for a two layer
+% neural network which performs classification
 %   [J grad] = NNCOSTFUNCTON(nn_params, hidden_layer_size, num_labels, ...
 %   X, y, lambda) computes the cost and gradient of the neural network. The
 %   parameters for the neural network are "unrolled" into the vector
@@ -38,6 +38,19 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
+
+%convert y to matrix form
+y = eye(10)(y,:)
+
+J <- 0
+for k=1:num_labels 
+    J += 1/m * sum(  -y(k)'  * log(  sigmoid(X*theta(k))) - 
+                  (1-y(k))' * log(1-sigmoid(X*theta(k))));
+    grad = 1/m * X'*(sigmoid(X*theta) - y);
+end
+J <- J/m;
+
+
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
