@@ -71,7 +71,7 @@ J = J + r;
 %               first time.
 
 for t=1:m
-    % 1. 
+    % 1. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Set the input layer’s values (a(1) ) to the t-th training example x(t) .
     % Perform a feedforward pass (Figure 2), computing the activations (z (2) ,
     % a(2) , z (3) , a(3) ) for layers 2 and 3. 
@@ -79,35 +79,29 @@ for t=1:m
     % activations for layers a(1) and a(2) also include the bias unit.  In 
     % Octave, if a 1 is a column vector, adding one corresponds to 
     % a_1 = [1 ; a 1].
-    a1 = [1 X(t,:)];
+    a1 = X(t,:);
+    a1 = [1 a1];
     z2 = a1 * Theta1';
-    a2 = sigmoix(z2);
+    a2 = sigmoid(z2);
+    a2 = [1 a2];
+    z3 = a2 * Theta2';
+    a3 = sigmoid(z3);
 
+    % 2. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % For each output unit k in layer 3 (the output layer), 
+    % set δ(3)k = (a(3)k − yk )
+    % δ is delta
 
+    % where yk ∈ {0, 1} indicates whether the current training example belongs to 
+    % class k (yk = 1), or if it belongs to a different class (yk = 0).  You may 
+    % find logical arrays helpful for this task (explained in the previous 
+    % programming exercise).
+    for k=1:num_labels
+        % need k delta terms
+        %[[CONTINUE HERE]]
+        delta = ko
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    a3 - y(t,:);
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
