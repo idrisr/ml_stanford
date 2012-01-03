@@ -31,8 +31,8 @@ X = [ones(m, 1) X];
 % Set A1 with Theta1
 % need this to be a column vector N x 1
 A1 = X * Theta1';
-A1 = sigmoid(A1) > 0.5;
-A1  = [ones(m, 1) A1];
+A1 = sigmoid(A1);
+A1 = [ones(m, 1) A1];
 
 % Set A2 with Theta2
 A2 = A1 * Theta2';
@@ -40,6 +40,5 @@ A2 = A1 * Theta2';
 [x, p] = max(A2, [], 2);
 
 % =========================================================================
-
 
 end
