@@ -69,7 +69,7 @@ J = J + r;
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
-
+grad = 0;
 for t=1:m
     % 1. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Set the input layer’s values (a(1) ) to the t-th training example x(t) .
@@ -92,16 +92,17 @@ for t=1:m
     % set δ(3)k = (a(3)k − yk )
     % δ is delta
 
-    % where yk ∈ {0, 1} indicates whether the current training example belongs to 
-    % class k (yk = 1), or if it belongs to a different class (yk = 0).  You may 
-    % find logical arrays helpful for this task (explained in the previous 
-    % programming exercise).
+    % where yk ∈ {0, 1} indicates whether the current training example belongs 
+    % to class k (yk = 1), or if it belongs to a different class (yk = 0).  
+    % You may find logical arrays helpful for this task 
+    % (explained in the previous programming exercise).
     for k=1:num_labels
-        % need k delta terms
-        %[[CONTINUE HERE]]
-        delta = ko
+        delta3 = a3 - y(k,:);
+        delta2 = Theta3' * delta3 .* sigmoidGradient(z3);
+        grad += delta2*a1' + delta3*a2';
+    end
+end
 
-    a3 - y(t,:);
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
