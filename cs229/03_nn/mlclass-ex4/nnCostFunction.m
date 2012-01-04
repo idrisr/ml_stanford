@@ -70,6 +70,10 @@ J = J + r;
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
+
+% I'm not going to do this, since I've worked through how to do this in a
+% vectorized form and the for loop method seems more complicated
+
 grad = 0;
 for t=1:m
     % 1. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
