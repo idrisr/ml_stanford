@@ -98,7 +98,7 @@ for t=1:m
     % (explained in the previous programming exercise).
     for k=1:num_labels
         delta3 = a3 - y(k,:);
-        delta2 = Theta3' * delta3 .* sigmoidGradient(z3);
+        delta2 = Theta2' * delta3 .* sigmoidGradient(z3);
         grad += delta2*a1' + delta3*a2';
     end
 end
