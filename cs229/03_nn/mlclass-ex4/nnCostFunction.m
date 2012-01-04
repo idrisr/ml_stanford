@@ -75,7 +75,7 @@ for t=1:m
     % Set the input layer’s values (a(1) ) to the t-th training example x(t) .
     % Perform a feedforward pass (Figure 2), computing the activations (z (2) ,
     % a(2) , z (3) , a(3) ) for layers 2 and 3. 
-    % Note that you need to add a +1 term to ensure that the vectors of 
+    % Note that you need to add a+1 term to ensure that the vectors of 
     % activations for layers a(1) and a(2) also include the bias unit.  In 
     % Octave, if a 1 is a column vector, adding one corresponds to 
     % a_1 = [1 ; a 1].
@@ -98,11 +98,16 @@ for t=1:m
     % (explained in the previous programming exercise).
     for k=1:num_labels
         delta3 = a3 - y(k,:);
-        delta2 = Theta2' * delta3 .* sigmoidGradient(z3);
+        delta2 = delta3*Theta2 .* sigmoidGradient(z3);
+        % Should have same dimensions as Theta1, which is 25x401
+        Theta1_grad = 
+
+        % Should have same dimensions as Theta2, which is 10x25
+        Theta2_grad = 
+
         grad += delta2*a1' + delta3*a2';
     end
 end
-
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
