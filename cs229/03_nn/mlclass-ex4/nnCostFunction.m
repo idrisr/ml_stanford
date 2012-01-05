@@ -93,8 +93,8 @@ y;                    % 5000 x 10
 % 2. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Back Prop
 delta3 = a3 - y;      % 5000 x 10
-delta2 = (delta3 .*sigmoidGradient(z3)) * Theta2; % 5000 x 26
-delta2 = delta2(:,2:end);                         % 5000 x 25
+delta2 = delta3 * Theta2(:,2:end) .* sigmoidGradient(z2); % 5000 x 26
+%delta2 = delta2(:,2:end);                         % 5000 x 25
 %delta1 = (delta2 .*sigmoidGradient(z2)) * Theta1; % 5000 x 401
 %delta1 = delta1(:,2:end);                         % 5000 x 400
 
