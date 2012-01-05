@@ -14,12 +14,14 @@ function [J grad] = nnCostFunction(nn_params, ...
 %   partial derivatives of the neural network.
 %
 
-% Reshape nn_params back into the parameters Theta1 and Theta2, the weight matrices
-% for our 2 layer neural network
-Theta1 = reshape(nn_params(1:hidden_layer_size * (input_layer_size + 1)), ...
+% Reshape nn_params back into the parameters Theta1 and Theta2, the weight 
+% matrices  for our 2 layer neural network
+Theta1 = reshape(nn_params(1:hidden_layer_size * ...
+                (input_layer_size + 1)), ...
                  hidden_layer_size, (input_layer_size + 1));
 
-Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):end), ...
+Theta2 = reshape(nn_params((1 + (hidden_layer_size * ...
+                (input_layer_size + 1))):end), ...
                  num_labels, (hidden_layer_size + 1));
 
 % Setup some useful variables
@@ -42,10 +44,9 @@ Theta2_grad = zeros(size(Theta2));
 
 %convert y to matrix form
 %Dont hard code this dimension
-size(y)
-y
-s = size(y)(1)
-y = eye(s)(y,:)
+s = max(y);
+%s = size(X)(2);
+y = eye(s)(y,:);
 
 h1 = sigmoid([ones(m, 1) X] * Theta1');
 h2 = sigmoid([ones(m, 1) h1] * Theta2');
@@ -61,19 +62,19 @@ J = J + r;
 
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
-%         Theta1_grad and Theta2_grad. You should return the partial derivatives of
-%         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
-%         Theta2_grad, respectively. After implementing Part 2, you can check
-%         that your implementation is correct by running checkNNGradients
+% Theta1_grad and Theta2_grad. You should return the partial derivatives of
+% the cost function with respect to Theta1 and Theta2 in Theta1_grad and
+% Theta2_grad, respectively. After implementing Part 2, you can check
+% that your implementation is correct by running checkNNGradients
 %
-%         Note: The vector y passed into the function is a vector of labels
-%               containing values from 1..K. You need to map this vector into a 
-%               binary vector of 1's and 0's to be used with the neural network
-%               cost function.
+% Note: The vector y passed into the function is a vector of labels
+% containing values from 1..K. You need to map this vector into a 
+% binary vector of 1's and 0's to be used with the neural network
+% cost function.
 %
-%         Hint: We recommend implementing backpropagation using a for-loop
-%               over the training examples if you are implementing it for the 
-%               first time.
+% Hint: We recommend implementing backpropagation using a for-loop
+% over the training examples if you are implementing it for the 
+% first time.
 
 % I'm not going to do this, since I've worked through how to do this in a
 % vectorized form and the for loop method seems more complicated
@@ -87,21 +88,24 @@ a2 = sigmoid(z2);     % 5000 x 25
 a2 = [ones(m, 1) a2]; % 5000 x 26
 z3 = a2 * Theta2';    % 5000 x 10
 a3 = sigmoid(z3);     % 5000 x 10
+%a3 = [ones(m, 1) a3]; % 5000 x 26
 y;                    % 5000 x 10
 
 % 2. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Back Prop
 delta3 = a3 - y;      % 5000 x 10
 delta2 = (delta3 .*sigmoidGradient(z3)) * Theta2; % 5000 x 26
-delta2 = delta2(:,2:end);                         % 5000 x 25
+%delta2 = delta2(:,2:end);                         % 5000 x 25
 %delta1 = (delta2 .*sigmoidGradient(z2)) * Theta1; % 5000 x 401
 %delta1 = delta1(:,2:end);                         % 5000 x 400
 
 % Should have same dimensions as Theta1, which is 25x401
 Theta1_grad = 1/m * (delta2' * a1);
+Theta1_grad = Theta1_grad(:,2:end);
 
-% Should have same dimensions as Theta2, which is 10x25
+% Should have same dimensions as Theta2, which is 10x26
 Theta2_grad = 1/m * (delta3' * a2);
+Theta2_grad = Theta2_grad(:,2:end);
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -116,6 +120,5 @@ Theta2_grad = 1/m * (delta3' * a2);
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end
