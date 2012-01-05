@@ -33,7 +33,7 @@ Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% ====================== YOUR CODE HERE ======================
+% ===================== YOUR CODE HERE ======================
 % Instructions: You should complete the code by working through the
 %               following parts.
 %
