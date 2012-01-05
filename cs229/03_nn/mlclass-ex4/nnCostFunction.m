@@ -42,7 +42,10 @@ Theta2_grad = zeros(size(Theta2));
 
 %convert y to matrix form
 %Dont hard code this dimension
-y = eye(10)(y,:);
+size(y)
+y
+s = size(y)(1)
+y = eye(s)(y,:)
 
 h1 = sigmoid([ones(m, 1) X] * Theta1');
 h2 = sigmoid([ones(m, 1) h1] * Theta2');
