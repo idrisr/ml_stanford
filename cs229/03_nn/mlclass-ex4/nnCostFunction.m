@@ -82,30 +82,29 @@ J = J + r;
 % 1. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Feed Forward
 a1 = X;               % 5000 x 400
-a1 = [ones(m, 1) a1]; % 5000 x 401
+a1 = [ones(m, 1) a1]; % 5000 x 401, add bias term
 z2 = a1 * Theta1';    % 5000 x 25
 a2 = sigmoid(z2);     % 5000 x 25
-a2 = [ones(m, 1) a2]; % 5000 x 26
+a2 = [ones(m, 1) a2]; % 5000 x 26, add bias term
 z3 = a2 * Theta2';    % 5000 x 10
 a3 = sigmoid(z3);     % 5000 x 10
-%a3 = [ones(m, 1) a3]; % 5000 x 26
 y;                    % 5000 x 10
 
 % 2. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Back Prop
 delta3 = a3 - y;      % 5000 x 10
 delta2 = (delta3 .*sigmoidGradient(z3)) * Theta2; % 5000 x 26
-%delta2 = delta2(:,2:end);                         % 5000 x 25
+delta2 = delta2(:,2:end);                         % 5000 x 25
 %delta1 = (delta2 .*sigmoidGradient(z2)) * Theta1; % 5000 x 401
 %delta1 = delta1(:,2:end);                         % 5000 x 400
 
 % Should have same dimensions as Theta1, which is 25x401
 Theta1_grad = 1/m * (delta2' * a1);
-Theta1_grad = Theta1_grad(:,2:end);
+%Theta1_grad = Theta1_grad(:,2:end);
 
 % Should have same dimensions as Theta2, which is 10x26
 Theta2_grad = 1/m * (delta3' * a2);
-Theta2_grad = Theta2_grad(:,2:end);
+%Theta2_grad = Theta1_grad(:,2:end);
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
