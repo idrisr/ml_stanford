@@ -41,6 +41,7 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 
 %convert y to matrix form
+%Dont hard code this dimension
 y = eye(10)(y,:);
 
 h1 = sigmoid([ones(m, 1) X] * Theta1');
