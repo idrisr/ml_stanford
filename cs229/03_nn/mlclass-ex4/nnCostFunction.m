@@ -100,6 +100,7 @@ z1 = size(Theta1)(1);
 Theta1_grad = 1/m * (delta2' * a1) + lambda/m * [zeros(z1, 1) Theta1(:,2:end)];
 %Theta1_grad = Theta1_grad(:,2:end);
 
+
 % Should have same dimensions as Theta2, which is 10x26
 z2 = size(Theta2)(1);
 Theta2_grad = 1/m * (delta3' * a2) + lambda/m * [zeros(z2, 1) Theta2(:,2:end)];
