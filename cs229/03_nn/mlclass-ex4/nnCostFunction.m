@@ -94,9 +94,6 @@ y;                    % 5000 x 10
 % Back Prop
 delta3 = a3 - y;      % 5000 x 10
 delta2 = delta3 * Theta2(:,2:end) .* sigmoidGradient(z2); % 5000 x 26
-%delta2 = delta2(:,2:end);                         % 5000 x 25
-%delta1 = (delta2 .*sigmoidGradient(z2)) * Theta1; % 5000 x 401
-%delta1 = delta1(:,2:end);                         % 5000 x 400
 
 % Should have same dimensions as Theta1, which is 25x401
 Theta1_grad = 1/m * (delta2' * a1);
