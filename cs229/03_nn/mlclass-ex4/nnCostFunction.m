@@ -74,44 +74,31 @@ J = J + r;
 % I'm not going to do this, since I've worked through how to do this in a
 % vectorized form and the for loop method seems more complicated
 
-grad = 0;
-for t=1:m
-    % 1. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Set the input layer’s values (a(1) ) to the t-th training example x(t) .
-    % Perform a feedforward pass (Figure 2), computing the activations (z (2) ,
-    % a(2) , z (3) , a(3) ) for layers 2 and 3. 
-    % Note that you need to add a+1 term to ensure that the vectors of 
-    % activations for layers a(1) and a(2) also include the bias unit.  In 
-    % Octave, if a 1 is a column vector, adding one corresponds to 
-    % a_1 = [1 ; a 1].
-    a1 = X(t,:);
-    a1 = [1 a1];
-    z2 = a1 * Theta1';
-    a2 = sigmoid(z2);
-    a2 = [1 a2];
-    z3 = a2 * Theta2';
-    a3 = sigmoid(z3);
+% 1. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Feed Forward
 
-    % 2. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % For each output unit k in layer 3 (the output layer), 
-    % set δ(3)k = (a(3)k − yk )
-    % δ is delta
+a1 = X;               % 5000x400
+a1 = [ones(m, 1) a1]; % 5000x401
+z2 = a1 * Theta1';    % 5000x25
+a2 = sigmoid(z2);     % 5000x25
+a2 = [ones(m, 1) a2]; % 5000x26
+z3 = a2 * Theta2';    % 5000x26
+a3 = sigmoid(z3);     % 5000x26
 
-    % where yk ∈ {0, 1} indicates whether the current training example belongs 
-    % to class k (yk = 1), or if it belongs to a different class (yk = 0).  
-    % You may find logical arrays helpful for this task 
-    % (explained in the previous programming exercise).
-    for k=1:num_labels
-        delta3 = a3 - y(k,:);
-        delta2 = delta3*Theta2 .* sigmoidGradient(z3);
-        % Should have same dimensions as Theta1, which is 25x401
-        Theta1_grad = 
+% 2. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Back Prop
+delta2 = a3 - y; % same size as theta2
+delta1 = 
 
-        % Should have same dimensions as Theta2, which is 10x25
-        Theta2_grad = 
+delta1 = delta2*(Theta2 .* sigmoidGradient(z2));
+% Should have same dimensions as Theta1, which is 25x401
+Theta1_grad = 
 
-        grad += delta2*a1' + delta3*a2';
-    end
+% Should have same dimensions as Theta2, which is 10x25
+Theta2_grad = 
+
+grad += delta2*a1' + delta3*a2';
+end
 end
 
 % Part 3: Implement regularization with the cost function and gradients.
