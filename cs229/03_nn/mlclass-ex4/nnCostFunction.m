@@ -44,8 +44,8 @@ Theta2_grad = zeros(size(Theta2));
 
 %convert y to matrix form
 %Dont hard code this dimension
-s = max(y);
 %s = size(X)(2);
+s = max(y);
 y = eye(s)(y,:);
 
 h1 = sigmoid([ones(m, 1) X] * Theta1');
@@ -96,11 +96,14 @@ delta3 = a3 - y;      % 5000 x 10
 delta2 = delta3 * Theta2(:,2:end) .* sigmoidGradient(z2); % 5000 x 26
 
 % Should have same dimensions as Theta1, which is 25x401
-Theta1_grad = 1/m * (delta2' * a1);
+z1 = size(Theta1)(1);
+Theta1_grad = 1/m * (delta2' * a1) + lambda/m * [zeros(z1, 1) Theta1(:,2:end)];
 %Theta1_grad = Theta1_grad(:,2:end);
 
 % Should have same dimensions as Theta2, which is 10x26
-Theta2_grad = 1/m * (delta3' * a2);
+z2 = size(Theta2)(1);
+Theta2_grad = 1/m * (delta3' * a2) + lambda/m * [zeros(z2, 1) Theta2(:,2:end)];
+
 %Theta2_grad = Theta1_grad(:,2:end);
 
 % Part 3: Implement regularization with the cost function and gradients.
