@@ -76,30 +76,28 @@ J = J + r;
 
 % 1. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Feed Forward
-
-a1 = X;               % 5000x400
-a1 = [ones(m, 1) a1]; % 5000x401
-z2 = a1 * Theta1';    % 5000x25
-a2 = sigmoid(z2);     % 5000x25
-a2 = [ones(m, 1) a2]; % 5000x26
-z3 = a2 * Theta2';    % 5000x26
-a3 = sigmoid(z3);     % 5000x26
+a1 = X;               % 5000 x 400
+a1 = [ones(m, 1) a1]; % 5000 x 401
+z2 = a1 * Theta1';    % 5000 x 25
+a2 = sigmoid(z2);     % 5000 x 25
+a2 = [ones(m, 1) a2]; % 5000 x 26
+z3 = a2 * Theta2';    % 5000 x 10
+a3 = sigmoid(z3);     % 5000 x 10
+y;                    % 5000 x 10
 
 % 2. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Back Prop
-delta2 = a3 - y; % same size as theta2
-delta1 = 
+delta3 = a3 - y;      % 5000 x 10
+delta2 = (delta3 .*sigmoidGradient(z3)) * Theta2; % 5000 x 26
+delta2 = delta2(:,2:end);                         % 5000 x 25
+%delta1 = (delta2 .*sigmoidGradient(z2)) * Theta1; % 5000 x 401
+%delta1 = delta1(:,2:end);                         % 5000 x 400
 
-delta1 = delta2*(Theta2 .* sigmoidGradient(z2));
 % Should have same dimensions as Theta1, which is 25x401
-Theta1_grad = 
+Theta1_grad = 1/m * (delta2' * a1);
 
 % Should have same dimensions as Theta2, which is 10x25
-Theta2_grad = 
-
-grad += delta2*a1' + delta3*a2';
-end
-end
+Theta2_grad = 1/m * (delta3' * a2);
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
