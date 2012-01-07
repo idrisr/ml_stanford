@@ -13,6 +13,8 @@ sigma = 0.3;
 Cs =     [0.01, 0.03, 0.1, 0.3, 1, 3 ,10, 30];
 sigmas = [0.01, 0.03, 0.1, 0.3, 1, 3 ,10, 30];
 
+%Cs =     [0.01, 0.03];
+%sigmas = [0.01, 0.03];
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return the optimal C and sigma
 %               learning parameters found using the cross validation set.
@@ -24,28 +26,24 @@ sigmas = [0.01, 0.03, 0.1, 0.3, 1, 3 ,10, 30];
 %  Note: You can compute the prediction error using 
 %        mean(double(predictions ~= yval))
 %
-min_acc = 1;
-acc = zeros(length(Cs) * length(sigmas),1);
+min_err = 1;
+err = zeros(length(Cs) * length(sigmas),1);
 for i = 1:length(Cs)
     for j = 1:length(sigmas)
         %C = Cs(i);
         %sigma = sigmas(j);
         model = svmTrain(X, y, Cs(i), @(x1, x2) gaussianKernel(x1, x2, sigmas(j))); 
         p = svmPredict(model, Xval);
-        acc = mean(double(p ~= yval));
-        if acc < min_acc
+        err = mean(double(p ~= yval));
+        if err < min_err
+            fprintf('new min\n');
             C = Cs(i);
             sigma = sigmas(j);
-        fprintf('C=%f, sigma=%f, acc=%f', C, sigma, acc);
+            min_err = err;
+        end
+        fprintf('C=%.2f, sigma=%.2f, err=%.2f\n', Cs(i), sigmas(j), err);
     end
 end
-
-
-
-
-
-
-
 % =========================================================================
 
 end
