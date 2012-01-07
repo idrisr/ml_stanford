@@ -29,10 +29,10 @@ for i = 1:length(Cs)
     for j = 1:length(sigmas)
         C = Cs(i);
         sigma = sigmas(j);
-        model = svmTrain(X, y, C, ,@gaussianKernel 1e-3, 20);
         model = svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma)); 
         p = svmPredict(model, Xval);
-        mean(double(p ~= yval))
+        acc = mean(double(p ~= yval));
+        fprintf('C=%f, sigma=%f, acc=%f', C, sigma, acc);
     end
 end
 
