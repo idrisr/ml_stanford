@@ -106,11 +106,9 @@ while ~isempty(email_contents)
             break
         end
     end
-
     % =============================================================
-
-
     % Print to screen, ensuring that the output lines are not too long
+
     if (l + length(str) + 1) > 78
         fprintf('\n');
         l = 0;
