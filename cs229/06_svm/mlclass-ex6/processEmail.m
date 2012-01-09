@@ -100,8 +100,8 @@ while ~isempty(email_contents)
     % Can you use a cell array like a hash - to do a word in vocabList?
     % dunno
     for i = 1:length(vocabList)
-        vocab_word = vocabList{i}
-        if strcomp(vocabList, str)
+        vocab_word = vocabList{i};
+        if strcmp(vocab_word, str)
             word_indices = [word_indices ;i ]; 
             break
         end
