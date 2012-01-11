@@ -97,19 +97,18 @@ while ~isempty(email_contents)
     %       str2). It will return 1 only if the two strings are equivalent.
     %
 
-
-
-
-
-
-
-
-
-
+    % Can you use a cell array like a hash - to do a word in vocabList?
+    % dunno
+    for i = 1:length(vocabList)
+        vocab_word = vocabList{i};
+        if strcmp(vocab_word, str)
+            word_indices = [word_indices ;i ]; 
+            break
+        end
+    end
     % =============================================================
-
-
     % Print to screen, ensuring that the output lines are not too long
+
     if (l + length(str) + 1) > 78
         fprintf('\n');
         l = 0;
