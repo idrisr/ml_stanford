@@ -42,10 +42,10 @@ Theta_grad = zeros(size(Theta));
 
 %Calc cost, only when R not zero
 
-J = (1/2) * sum(sum((X*Theta' - Y).^2 .*R));
 X_grad =  ((X*Theta' - Y) .* R) * Theta;
 Theta_grad =  ((X*Theta' - Y) .* R)' * X;
-
+J = (1/2) * sum(sum((X*Theta' - Y).^2 .*R)) + ...
+        lambda/2 *(sum(Theta(:).^2) + sum(X(:).^2));
 
 % =============================================================
 
