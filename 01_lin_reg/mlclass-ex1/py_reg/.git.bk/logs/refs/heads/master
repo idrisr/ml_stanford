@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 df844f1f2c8ef2bdf842b375d31bc61cd55109b8 Idris Raja <idris.raja@gmail.com> 1324164596 -0800	commit (initial): initial commit
+df844f1f2c8ef2bdf842b375d31bc61cd55109b8 1e640802a33d29adc2486689ff51e1948af11e5c Idris Raja <idris.raja@gmail.com> 1324193782 -0800	commit: Implemented Gradient Descent translating the code from Octave
+1e640802a33d29adc2486689ff51e1948af11e5c dfeb2fb2d327ab0b7c679422b304c59eb7f3b855 Idris Raja <idris.raja@gmail.com> 1324352045 -0800	commit: Implemented gradient_descent with matrices instead of for loops
+dfeb2fb2d327ab0b7c679422b304c59eb7f3b855 e7e2c1763f57053e732f80c02a59c8578b59d3d7 Idris Raja <idris.raja@gmail.com> 1324357734 -0800	commit: Made matrix dimensions explicit
